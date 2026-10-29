@@ -38,7 +38,8 @@ if (-not (Test-Path $WorkDir)) {
 }
 
 # 主分支
-$srcBr = if (& $git -C $WorkDir show-ref --verify --quiet refs/heads/master; $LASTEXITCODE -eq 0) { 'master' } else { 'main' }
+$null = & $git -C $WorkDir show-ref --verify --quiet refs/heads/master
+$srcBr = if ($LASTEXITCODE -eq 0) { 'master' } else { 'main' }
 Write-Host "push $srcBr -> $TargetBranch"
 & $git -C $WorkDir push --force $GitHubRepo "refs/heads/${srcBr}:refs/heads/${TargetBranch}"
 if ($LASTEXITCODE -ne 0) { throw "push main failed ($LASTEXITCODE)" }
