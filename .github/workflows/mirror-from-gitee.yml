@@ -1,11 +1,15 @@
 # SPDX-License-Identifier: MulanPSL-2.0
 # Copyright (c) 2026 zhuhuaikuan
 #
-# 在 **GitHub 仓库**中运行：定时从 Gitee 镜像拉取到当前 GitHub 仓库。
+# 在 **GitHub 仓库**中运行：定时把 Gitee 仓库镜像到当前 GitHub 仓库。
+# - 源默认分支 master 映射到目标 main（若源本身是 main 则同名）
+# - 同步所有标签
+# - 不删除目标仓库的 main（GitHub 禁止删除默认分支），采用安全覆盖推送
+#
 # 用法：
-#   1) 在 GitHub 新建（可空）仓库，把本文件放到 .github/workflows/mirror-from-gitee.yml
-#   2) 若 Gitee 仓库是私有的，在 GitHub 仓库 Settings → Secrets 添加 GITEE_TOKEN（Gitee 私人令牌，读权限即可）
-#   3) Actions 里手动运行一次或等待定时触发
+#   1) GitHub 新建/使用仓库，把本文件放到 .github/workflows/mirror-from-gitee.yml
+#   2) 若 Gitee 仓库私有：GitHub 仓库 Settings → Secrets 添加 GITEE_TOKEN（读权限即可）
+#   3) Actions 手动运行一次或等待定时触发
 name: Mirror from Gitee
 
 on:
@@ -30,6 +34,7 @@ jobs:
           GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPO: ${{ github.repository }}
+          TARGET_BRANCH: main
         run: |
           set -euo pipefail
           if [ -n "${GITEE_TOKEN:-}" ]; then
@@ -40,4 +45,14 @@ jobs:
           rm -rf repo.git
           git clone --mirror "$SRC" repo.git
           cd repo.git
-          git push --mirror "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPO}.git"
+          BASE="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPO}.git"
+          # 主分支：源 master 或 main -> 目标 TARGET_BRANCH
+          if git show-ref --verify --quiet refs/heads/master; then SRC_BR=master; else SRC_BR=main; fi
+          echo "push $SRC_BR -> $TARGET_BRANCH"
+          git push --force "$BASE" "refs/heads/${SRC_BR}:refs/heads/${TARGET_BRANCH}"
+          # 其它分支
+          git for-each-ref --format='%(refname:short)' refs/heads | grep -vxE "master|main" | while read -r b; do
+            echo "push branch $b"; git push --force "$BASE" "refs/heads/${b}:refs/heads/${b}";
+          done || true
+          # 标签
+          git push --force "$BASE" --tags
