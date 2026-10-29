@@ -1,0 +1,44 @@
+{
+  "name": "dsh-checkin-plugin",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness 插件：每天定时为 TRAE CN / WorkBuddy 自动签到，支持聊天命令 /checkin 与自定义时间/分支策略",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml"
+  },
+  "files": [
+    "src",
+    "engine",
+    "docs",
+    "cordis.patch.yml",
+    "README.md",
+    "README.en.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "checkin",
+    "signin",
+    "trae",
+    "workbuddy",
+    "automation"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MulanPSL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitee.com/zhuhuaikuan/dsh-checkin-plugin.git"
+  },
+  "homepage": "https://gitee.com/zhuhuaikuan/dsh-checkin-plugin",
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

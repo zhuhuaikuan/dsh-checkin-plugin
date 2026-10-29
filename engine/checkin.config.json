@@ -1,0 +1,35 @@
+{
+  "_comment": "TRAE CN / WorkBuddy 每日自动签到配置。插件与独立脚本共用。",
+  "time": "08:00",
+  "timeZone": "Asia/Shanghai",
+  "closeAfterCheckin": true,
+  "busy": {
+    "cpuCores": 0.35,
+    "writeMB": 25,
+    "warmupSec": 120
+  },
+  "maxWaitHours": 8,
+  "apps": [
+    {
+      "name": "TRAE CN",
+      "enabled": true,
+      "image": "Trae CN.exe",
+      "port": 9333,
+      "launchShortcut": "launch_trae.lnk",
+      "pageMatch": "workbench",
+      "kind": "trae",
+      "runningPolicy": "closeWhenIdle"
+    },
+    {
+      "name": "WorkBuddy",
+      "enabled": true,
+      "image": "WorkBuddy.exe",
+      "port": 9334,
+      "launchShortcut": "launch_wb.lnk",
+      "pageMatch": "index\\.html|WorkBuddy",
+      "kind": "workbuddy",
+      "runningPolicy": "closeWhenIdle"
+    }
+  ],
+  "_runningPolicy说明": "closeWhenIdle=已打开且空闲则关闭->重开->签到->关闭(忙则每10分钟等)；skip=已打开则跳过(不关闭也不签到)；forceClose=已打开立即关闭->重开->签到(会打断任务)；keepOpen=已打开且带调试端口时签到但不关闭(需先运行 enable_debug_launch.ps1 给启动快捷方式加端口)"
+}

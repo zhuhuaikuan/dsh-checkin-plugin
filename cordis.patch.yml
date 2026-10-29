@@ -1,0 +1,14 @@
+- insert:
+    - id: dsh-checkin
+      name: dsh-checkin-plugin
+      config:
+        enabled: true
+        # 默认使用本包 engine/ 下的 daily_checkin.js 与 checkin.config.json；
+        # nodePath 默认使用宿主进程（DSH 以 Node 模式运行时即 node 能力）。
+        # 如需覆盖可取消下面注释并填写绝对路径：
+        # scriptPath: "C:/path/to/engine/daily_checkin.js"
+        # configPath: "C:/path/to/engine/checkin.config.json"
+        # nodePath: "C:/path/to/node.exe"
+        # time: "08:00"
+        # timeZone: "Asia/Shanghai"
+        runOnStart: false

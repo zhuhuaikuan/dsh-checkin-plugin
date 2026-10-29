@@ -1,36 +1,38 @@
 # dsh-checkin-plugin
 
-#### Description
-Trae, workbuddy 自动签到插件
+DeepSeek Harness (DSH) plugin: automatically completes the daily check-in for **TRAE CN** and **WorkBuddy** at a configurable time, then closes the apps according to policy. Ships a `/checkin` chat command and configurable time / branch policies.
 
-#### Software Architecture
-Software architecture description
+- License: Mulan PSL v2 (see [LICENSE](LICENSE))
+- Platform: Windows 10/11 (uses Electron remote-debugging ports; works while locked)
 
-#### Installation
+## Features
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+- Scheduled daily check-in (default 08:00).
+- Chat slash command `/checkin [run|status|config|time HH:MM]`.
+- No screenshots: drives the apps over the Chrome DevTools Protocol (CDP).
+- Branch policy when an app is already open: `closeWhenIdle` / `skip` / `forceClose` / `keepOpen`.
+- Handles already-signed-in, launch failure, multi-instance (single-instance lock), saved login.
+- Optional Windows scheduled task as a fallback when DSH is closed.
 
-#### Instructions
+## Layout
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+```
+package.json  cordis.patch.yml  src/index.js
+engine/  (daily_checkin.js, checkin.config.json, *.ps1)
+docs/    (STRUCTURE.md, USER_GUIDE.md)
+README.md  README.en.md  LICENSE
+```
 
-#### Contribution
+Detailed structure: [docs/STRUCTURE.md](docs/STRUCTURE.md). Full manual: [docs/USER_GUIDE.md](docs/USER_GUIDE.md).
 
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
+## Quick start
 
+1. Install Node.js (>=18); make sure TRAE CN / WorkBuddy are logged in.
+2. Generate launch shortcuts: `powershell -ExecutionPolicy Bypass -File engine\create_launch_shortcuts.ps1`
+3. Add the plugin to your DSH profile (or via DSH UI: Plugins -> Add plugin -> local path), then restart DSH.
+4. Daily at 08:00 it runs; or use `/checkin status` / `/checkin run` in chat.
+5. Optional fallback: `powershell -ExecutionPolicy Bypass -File engine\install_task.ps1`
 
-#### Gitee Feature
+## Configuration
 
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+See `engine/checkin.config.json`: `time`, `timeZone`, `apps[].runningPolicy`, `busy.*`, `maxWaitHours`, `closeAfterCheckin`.
