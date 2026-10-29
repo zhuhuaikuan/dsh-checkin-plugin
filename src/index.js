@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MulanPSL-2.0
+// Copyright (c) 2026 zhuhuaikuan
+
 // DSH Check-in Plugin (Cordis host plugin)
 // Daily auto check-in for TRAE CN / WorkBuddy, with a user slash command `/checkin`.
 //

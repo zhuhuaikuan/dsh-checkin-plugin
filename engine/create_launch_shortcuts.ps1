@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MulanPSL-2.0
+# Copyright (c) 2026 zhuhuaikuan
+
 param(
   [string]$TraeExe = (Join-Path $env:LOCALAPPDATA 'Programs\Trae CN\Trae CN.exe'),
   [string]$WorkBuddyExe = 'D:\WorkBuddy\WorkBuddy.exe',

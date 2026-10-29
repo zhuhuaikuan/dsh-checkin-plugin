@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MulanPSL-2.0
+# Copyright (c) 2026 zhuhuaikuan
+
 param([switch]$Revert)
 # Add --remote-debugging-port to the TRAE CN / WorkBuddy launch shortcuts so that
 # apps the USER opens also expose a local debug port. Then the check-in script can

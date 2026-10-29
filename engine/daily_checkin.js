@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MulanPSL-2.0
+// Copyright (c) 2026 zhuhuaikuan
+
 // Daily auto check-in for TRAE CN and WorkBuddy.
 //
 // Strategy (v2):
