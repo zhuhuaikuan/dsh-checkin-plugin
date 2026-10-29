@@ -12,9 +12,12 @@
     "src",
     "engine",
     "docs",
+    "scripts",
+    ".github",
     "cordis.patch.yml",
     "README.md",
     "README.en.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "keywords": [
